@@ -5,9 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+  repository: grethinam/goapi
+  tag: latest
+  pullPolicy: Always
+  imagePullSecrets: mydockerhubregistrykey
 
 nameOverride: ""
 fullnameOverride: ""
