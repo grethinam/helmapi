@@ -1,51 +1,23 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ include "helmapi.fullname" . }}
+  name: mysqldb
   labels:
-    app: {{ include "helmapi.name" . }}
-    chart: {{ include "helmapi.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app: mysqldb
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      app: {{ include "helmapi.name" . }}
-      release: {{ .Release.Name }}
+      app: mysqldb
   template:
     metadata:
       labels:
-        app: {{ include "helmapi.name" . }}
-        release: {{ .Release.Name }}
+        app: mysqldb
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+      - name: mysqldb
+        image: grethinam/my-mysql:latest
+        ports:
+        - containerPort: 3306
+      imagePullSecrets:
+      - name: mydockerhubregistrykey
