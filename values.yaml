@@ -1,3 +1,10 @@
+# Default values for helmapi.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+
 goapi:
     name: goapi
     image:
@@ -7,23 +14,10 @@ goapi:
         imagePullSecrets: mydockerhubregistrykey
     type: LoadBalancer
     containerPort: 3000
-
-goweb:
-    name: goweb
-    image:
-        repository: grethinam/goweb
-        tag: latest
-        pullPolicy: Always
-        imagePullSecrets: mydockerhubregistrykey
-    type: LoadBalancer
-    containerPort: 8080
     
-mysql:
-    name: mysqldb
-    image:
-        repository: grethinam/my-mysql
-        tag: latest
-        pullPolicy: Always
-        imagePullSecrets: mydockerhubregistrykey
-    type: ClusterIP
-    containerPort: 3306
+ingress:
+  enabled: false
+  
+service:
+      type: LoadBalancer
+      port: 3000

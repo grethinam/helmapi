@@ -1,23 +1,24 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: mysqldb
+  name: {{ .Values.goapi.name }}
   labels:
-    app: mysqldb
+    app: {{ .Values.goapi.name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: mysqldb
+      app: {{ .Values.goapi.name }}
   template:
     metadata:
       labels:
-        app: mysqldb
+        app: {{ .Values.goapi.name }}
     spec:
       containers:
-      - name: mysqldb
-        image: grethinam/my-mysql:latest
+      - name: {{ .Values.goapi.name }}
+        image: {{ .Values.goapi.image.repository }}:{{ .Values.goapi.image.tag }}
+        imagePullPolicy: {{ .Values.goapi.image.pullPolicy }}
         ports:
-        - containerPort: 3306
+        - containerPort: {{ .Values.goapi.containerPort }}
       imagePullSecrets:
-      - name: mydockerhubregistrykey
+      - name: {{ .Values.goapi.image.imagePullSecrets }}
